@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1a717aef259eeb8a3408b39ad27855c7",
+    "identityHash": "30e7bdc3c35ca0031897c6c7da8e4481",
     "entities": [
       {
         "tableName": "Person",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "Incident",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `points` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `points` INTEGER NOT NULL, `creationDate` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "localId",
@@ -61,6 +61,12 @@
           {
             "fieldPath": "points",
             "columnName": "points",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "creationDate",
+            "columnName": "creationDate",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -104,7 +110,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1a717aef259eeb8a3408b39ad27855c7\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"30e7bdc3c35ca0031897c6c7da8e4481\")"
     ]
   }
 }

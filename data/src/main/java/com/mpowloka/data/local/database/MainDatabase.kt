@@ -3,7 +3,9 @@ package com.mpowloka.data.local.database
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.TypeConverters
 import android.content.Context
+import com.mpowloka.data.local.database.converter.DateTimeTypeConverter
 import com.mpowloka.data.local.database.entity.Incident
 import com.mpowloka.data.local.database.entity.Person
 import com.mpowloka.data.local.database.entity.PersonIncidentAsoc
@@ -16,6 +18,7 @@ import com.mpowloka.data.local.database.entity.PersonIncidentAsoc
         ],
         version = 1
 )
+@TypeConverters(DateTimeTypeConverter::class)
 abstract class MainDatabase : RoomDatabase() {
 
     companion object {
