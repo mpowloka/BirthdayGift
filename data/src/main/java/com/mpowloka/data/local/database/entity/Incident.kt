@@ -6,7 +6,7 @@ import org.joda.time.DateTime
 
 @Entity
 data class Incident(
-        @PrimaryKey(autoGenerate = true) val localId: Int = 0,
+        @PrimaryKey(autoGenerate = true) val localId: Long = 0,
         val name: String,
         val description: String = "",
         val points: Int,

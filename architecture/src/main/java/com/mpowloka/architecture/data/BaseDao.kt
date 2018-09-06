@@ -1,4 +1,4 @@
-package com.mpowloka.data.local.database.dao
+package com.mpowloka.architecture.data
 
 import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert

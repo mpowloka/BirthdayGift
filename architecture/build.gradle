@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
-apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-kapt'
+
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
@@ -16,12 +16,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-            }
-        }
 
     }
 
@@ -38,12 +32,9 @@ dependencies {
 
     room()
     coreTesting()
-    androidArchitecture()
 
-    implementation project(':architecture')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'net.danlew:android.joda:2.9.9.4'
 
 }
 repositories {

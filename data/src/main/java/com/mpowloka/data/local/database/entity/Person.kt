@@ -5,7 +5,7 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity
 data class Person(
-        @PrimaryKey(autoGenerate = true) val localId: Int = 0,
+        @PrimaryKey(autoGenerate = true) val localId: Long = 0,
         val firstName: String,
         val lastName: String
 )

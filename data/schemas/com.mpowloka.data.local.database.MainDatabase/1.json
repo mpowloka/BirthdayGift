@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "30e7bdc3c35ca0031897c6c7da8e4481",
+    "identityHash": "8cdffdc8559d59d97d39795e6ad9c159",
     "entities": [
       {
         "tableName": "Person",
@@ -81,8 +81,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "PersonIncidentAsoc",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localPersonId` INTEGER NOT NULL, `localIncidentId` INTEGER NOT NULL, PRIMARY KEY(`localPersonId`, `localIncidentId`))",
+        "tableName": "PersonIncidentLink",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localPersonId` INTEGER NOT NULL, `localIncidentId` INTEGER NOT NULL, PRIMARY KEY(`localPersonId`, `localIncidentId`), FOREIGN KEY(`localIncidentId`) REFERENCES `Incident`(`localId`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`localPersonId`) REFERENCES `Person`(`localId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "localPersonId",
@@ -104,13 +104,53 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_PersonIncidentLink_localPersonId",
+            "unique": false,
+            "columnNames": [
+              "localPersonId"
+            ],
+            "createSql": "CREATE  INDEX `index_PersonIncidentLink_localPersonId` ON `${TABLE_NAME}` (`localPersonId`)"
+          },
+          {
+            "name": "index_PersonIncidentLink_localIncidentId",
+            "unique": false,
+            "columnNames": [
+              "localIncidentId"
+            ],
+            "createSql": "CREATE  INDEX `index_PersonIncidentLink_localIncidentId` ON `${TABLE_NAME}` (`localIncidentId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Incident",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "localIncidentId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Person",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "localPersonId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"30e7bdc3c35ca0031897c6c7da8e4481\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8cdffdc8559d59d97d39795e6ad9c159\")"
     ]
   }
 }
