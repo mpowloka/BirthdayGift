@@ -8,13 +8,13 @@ import android.arch.persistence.room.Update
 interface BaseDao<T> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: T)
+    fun insert(item: T): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg items: T)
+    fun insert(vararg items: T): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(items: List<T>)
+    fun insert(items: List<T>): List<Long>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(item: T)

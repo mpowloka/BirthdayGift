@@ -9,15 +9,15 @@ import com.mpowloka.data.local.database.converter.DateTimeTypeConverter
 import com.mpowloka.data.local.database.dao.IncidentDao
 import com.mpowloka.data.local.database.dao.PersonDao
 import com.mpowloka.data.local.database.dao.PersonIncidentLinkDao
-import com.mpowloka.data.local.database.entity.Incident
-import com.mpowloka.data.local.database.entity.Person
-import com.mpowloka.data.local.database.entity.PersonIncidentLink
+import com.mpowloka.data.local.database.entity.IncidentEntity
+import com.mpowloka.data.local.database.entity.PersonEntity
+import com.mpowloka.data.local.database.entity.PersonIncidentLinkEntity
 
 @Database(
         entities = [
-            Person::class,
-            Incident::class,
-            PersonIncidentLink::class
+            PersonEntity::class,
+            IncidentEntity::class,
+            PersonIncidentLinkEntity::class
         ],
         version = 1
 )

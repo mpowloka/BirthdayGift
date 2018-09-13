@@ -3,159 +3,123 @@ package com.mpowloka.data.local.database.dao
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import com.mpowloka.data.local.database.MainDatabase
-import com.mpowloka.data.local.database.entity.Incident
-import com.mpowloka.data.local.database.entity.Person
-import com.mpowloka.data.local.database.entity.PersonIncidentLink
-import org.awaitility.Awaitility.await
+import com.mpowloka.data.local.database.entity.IncidentEntity
+import com.mpowloka.data.local.database.entity.PersonEntity
+import com.mpowloka.data.local.database.entity.PersonIncidentLinkEntity
 import org.hamcrest.CoreMatchers.`is`
+import org.junit.After
 import org.junit.Assert.assertThat
-import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
-import java.util.concurrent.TimeUnit
 
+@Suppress("TestFunctionName")
 @RunWith(MockitoJUnitRunner::class)
 class PersonDaoTest {
 
     private lateinit var SUT: PersonDao
 
-    private lateinit var personIncidentLinkDao: PersonIncidentLinkDao
-
-    private lateinit var incidentDao: IncidentDao
+    private lateinit var database: MainDatabase
 
     @Before
     fun setup() {
-        val database = Room.inMemoryDatabaseBuilder(
+        database = Room.inMemoryDatabaseBuilder(
                 InstrumentationRegistry.getContext(),
                 MainDatabase::class.java
         ).build()
 
-        incidentDao = database.incidentDao
-        personIncidentLinkDao = database.personIncidentLinkDao
         SUT = database.personDao
     }
 
+    @After
+    fun tearDown() {
+        database.close()
+    }
+
     @Test
-    fun getAllPersons_personsInDatabase_allPersonsReturned() {
-        val persons = insertSomePersons()
+    fun GET_ALL_PERSONS_QUERY_personsInDatabase_allPersonsReturned() {
+        SUT.insert(listOf(
+                PersonEntity(firstName = "Bill", lastName = "Cypher"),
+                PersonEntity(firstName = "Bill", lastName = "Cypher"),
+                PersonEntity(firstName = "Bill", lastName = "Cypher"),
+                PersonEntity(firstName = "Bill", lastName = "Cypher")
+        ))
 
         val result = SUT.getAllPersons()
-        assertThat(result, `is`(persons))
+        assertThat(result.size, `is`(4))
     }
 
     @Test
-    fun getAllPersons_noPersonsInDatabase_emptyListReturned() {
+    fun GET_ALL_PERSONS_QUERY_noPersonsInDatabase_emptyListReturned() {
         val result = SUT.getAllPersons()
-        assertThat(result, `is`(emptyList()))
+        assertThat(result.size, `is`(0))
     }
 
     @Test
-    fun getAllPersonsLiveData_personsInDatabase_allPersonsReturned() {
-        val persons = insertSomePersons()
+    fun GET_PERSONS_FOR_INCIDENT_ID_QUERY_somePersonsLinkedWithIncident_linkedPersonsReturned() {
 
-        val result = SUT.getAllPersonsLiveData().also { it.observeForever { _ -> } }
-        await().atMost(2, TimeUnit.SECONDS).until {
-            result.value == persons
-        }
-    }
+        val personsIds = SUT.insert(listOf(
+                PersonEntity(firstName = "Bill", lastName = "Cypher"),
+                PersonEntity(firstName = "Bill", lastName = "Cypher"),
+                PersonEntity(firstName = "Bill", lastName = "Cypher"),
+                PersonEntity(firstName = "Bill", lastName = "Cypher")
+        ))
 
-    @Test
-    fun getAllPersonsLiveData_noPersonsInDatabase_nullOrEmptyListReturned() {
-        val result = SUT.getAllPersonsLiveData()
-        result.observeForever { personsFromDatabase ->
-            if (personsFromDatabase != null && personsFromDatabase.isNotEmpty()) {
-                fail()
-            }
-        }
-    }
+        val incidentsIds = database.incidentDao.insert(listOf(
+                IncidentEntity(name = "Name", points = 10),
+                IncidentEntity(name = "Name", points = 10),
+                IncidentEntity(name = "Name", points = 10)
+        ))
 
-    @Test
-    fun getPersonsForIncidentId_somePersonsLinkedWithIncident_linkedPersonsReturned() {
-        val persons = insertSomePersons()
-        val localIncidentId = 18L
-
-        linkPersonsToIncident(persons.filter { it.localId > 2 }, localIncidentId)
-
-        val result = SUT.getPersonsForIncidentId(localIncidentId)
-        assertThat(result, `is`(persons.filter { it.localId > 2 }))
-    }
-
-    @Test
-    fun getPersonsForIncidentIdL_noPersonsLinkedWithIncident_emptyListReturned() {
-        insertSomePersons()
-        val localIncidentId = 18L
-
-        val result = SUT.getPersonsForIncidentId(localIncidentId)
-        assertThat(result, `is`(emptyList()))
-    }
-
-    @Test
-    fun getPersonsForIncidentId_noPersonsInDatabase_emptyListReturned() {
-        val localIncidentId = 18L
-
-        val result = SUT.getPersonsForIncidentId(localIncidentId)
-        assertThat(result, `is`(emptyList()))
-    }
-
-    @Test
-    fun getPersonsForIncidentIdLiveData_somePersonsLinkedWithIncident_linkedPersonsReturned() {
-        val persons = insertSomePersons()
-        val localIncidentId = 18L
-
-        linkPersonsToIncident(persons.filter { it.localId > 2 }, localIncidentId)
-
-        val result = SUT.getPersonsForIncidentIdLiveData(localIncidentId).also { it.observeForever { _ -> } }
-        await().atMost(2, TimeUnit.SECONDS).until {
-            result.value == persons.filter { it.localId > 2 }
-        }
-    }
-
-    @Test
-    fun getPersonsForIncidentIdLiveData_noPersonsLinkedWithIncident_nullOrEmptyListReturned() {
-        insertSomePersons()
-        val localIncidentId = 18L
-
-        SUT.getPersonsForIncidentIdLiveData(localIncidentId).also {
-            it.observeForever { personsFromDatabase ->
-                if (personsFromDatabase != null && personsFromDatabase.isNotEmpty()) {
-                    fail()
-                }
-            }
-        }
-    }
-
-    @Test
-    fun getPersonsForIncidentIdLiveData_noPersonsInDatabase_nullOrEmptyListReturned() {
-        val localIncidentId = 18L
-
-        SUT.getPersonsForIncidentIdLiveData(localIncidentId).also {
-            it.observeForever { personsFromDatabase ->
-                if (personsFromDatabase != null && personsFromDatabase.isNotEmpty()) {
-                    fail()
-                }
-            }
-        }
-    }
-
-    private fun linkPersonsToIncident(persons: List<Person>, incidentLocalId: Long) {
-        val links = mutableListOf<PersonIncidentLink>()
-        persons.forEach { person ->
-            links.add(PersonIncidentLink(person.localId, incidentLocalId))
-        }
-        incidentDao.insert(Incident(incidentLocalId, "Incident", points = 42))
-        personIncidentLinkDao.insert(links)
-    }
-
-    private fun insertSomePersons(): List<Person> {
-        val persons = listOf(
-                Person(1, "Tommy", "Belly"),
-                Person(2, "Bill", "Cypher"),
-                Person(3, "Anthony", "Hopkins"),
-                Person(4, "Mikey", "Bailey")
+        database.personIncidentLinkDao.insert(
+                PersonIncidentLinkEntity(personsIds[0], incidentsIds[0]),
+                PersonIncidentLinkEntity(personsIds[0], incidentsIds[1]),
+                PersonIncidentLinkEntity(personsIds[1], incidentsIds[1])
         )
-        SUT.insert(persons)
-        return persons
+
+        val result = SUT.getPersonsForIncidentId(incidentsIds[1])
+        assertThat(result.size, `is`(2))
     }
+
+    @Test
+    fun GET_PERSONS_FOR_INCIDENT_ID_QUERY_noPersonsLinkedWithIncident_emptyListReturned() {
+        SUT.insert(listOf(
+                PersonEntity(firstName = "Bill", lastName = "Morgan"),
+                PersonEntity(firstName = "Bill", lastName = "Morgan"),
+                PersonEntity(firstName = "Bill", lastName = "Morgan")
+        ))
+        val localIncidentId = 18L
+
+        val result = SUT.getPersonsForIncidentId(localIncidentId)
+        assertThat(result.size, `is`(0))
+    }
+
+
+    @Test
+    fun GET_PERSONS_FOR_INCIDENT_ID_QUERY_noPersonsInDatabase_emptyListReturned() {
+        val localIncidentId = 18L
+
+        val result = SUT.getPersonsForIncidentId(localIncidentId)
+        assertThat(result, `is`(emptyList()))
+    }
+
+
+    @Test
+    fun GET_PERSON_TOTAL_POINTS_multiplePersonsAndIncidents_sumOfPersonsIncidentsPointsReturned() {
+        val firstPersonLocalId = SUT.insert(PersonEntity(firstName = "Mike", lastName = "Parallax"))
+        val secondPersonLocalId = SUT.insert(PersonEntity(firstName = "Johny", lastName = "Bravo"))
+
+        val firstIncidentLocalId = database.incidentDao.insert(IncidentEntity(name = "Test 1", points = 42))
+        val secondIncidentLocalId = database.incidentDao.insert(IncidentEntity(name = "Test 2", points = 231))
+        val thirdIncidentLocalId = database.incidentDao.insert(IncidentEntity(name = "Test 3", points = 119))
+
+        database.personIncidentLinkDao.insert(PersonIncidentLinkEntity(firstPersonLocalId, firstIncidentLocalId))
+        database.personIncidentLinkDao.insert(PersonIncidentLinkEntity(secondPersonLocalId, secondIncidentLocalId))
+        database.personIncidentLinkDao.insert(PersonIncidentLinkEntity(secondPersonLocalId, thirdIncidentLocalId))
+
+        assertThat(SUT.getPersonTotalPoints(secondPersonLocalId), `is`(350))
+
+    }
+
 }
