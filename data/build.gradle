@@ -37,6 +37,7 @@ android {
 dependencies {
 
     room()
+    dagger()
     coreTesting()
     androidArchitecture()
 

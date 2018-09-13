@@ -7,16 +7,16 @@ import android.arch.persistence.room.TypeConverters
 import android.content.Context
 import com.mpowloka.data.local.database.converter.DateTimeTypeConverter
 import com.mpowloka.data.local.database.dao.IncidentDao
-import com.mpowloka.data.local.database.dao.PersonDao
+import com.mpowloka.data.local.database.dao.PersonsDao
 import com.mpowloka.data.local.database.dao.PersonIncidentLinkDao
-import com.mpowloka.data.local.database.entity.IncidentEntity
-import com.mpowloka.data.local.database.entity.PersonEntity
+import com.mpowloka.data.local.database.entity.Incident
+import com.mpowloka.data.local.database.entity.Person
 import com.mpowloka.data.local.database.entity.PersonIncidentLinkEntity
 
 @Database(
         entities = [
-            PersonEntity::class,
-            IncidentEntity::class,
+            Person::class,
+            Incident::class,
             PersonIncidentLinkEntity::class
         ],
         version = 1
@@ -24,7 +24,7 @@ import com.mpowloka.data.local.database.entity.PersonIncidentLinkEntity
 @TypeConverters(DateTimeTypeConverter::class)
 abstract class MainDatabase : RoomDatabase() {
 
-    abstract val personDao: PersonDao
+    abstract val personsDao: PersonsDao
 
     abstract val incidentDao: IncidentDao
 

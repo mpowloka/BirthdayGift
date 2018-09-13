@@ -3,8 +3,8 @@ package com.mpowloka.data.local.database.dao
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import com.mpowloka.data.local.database.MainDatabase
-import com.mpowloka.data.local.database.entity.IncidentEntity
-import com.mpowloka.data.local.database.entity.PersonEntity
+import com.mpowloka.data.local.database.entity.Incident
+import com.mpowloka.data.local.database.entity.Person
 import com.mpowloka.data.local.database.entity.PersonIncidentLinkEntity
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.After
@@ -16,9 +16,9 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @Suppress("TestFunctionName")
 @RunWith(MockitoJUnitRunner::class)
-class PersonDaoTest {
+class PersonsDaoTest {
 
-    private lateinit var SUT: PersonDao
+    private lateinit var SUT: PersonsDao
 
     private lateinit var database: MainDatabase
 
@@ -29,7 +29,7 @@ class PersonDaoTest {
                 MainDatabase::class.java
         ).build()
 
-        SUT = database.personDao
+        SUT = database.personsDao
     }
 
     @After
@@ -40,10 +40,10 @@ class PersonDaoTest {
     @Test
     fun GET_ALL_PERSONS_QUERY_personsInDatabase_allPersonsReturned() {
         SUT.insert(listOf(
-                PersonEntity(firstName = "Bill", lastName = "Cypher"),
-                PersonEntity(firstName = "Bill", lastName = "Cypher"),
-                PersonEntity(firstName = "Bill", lastName = "Cypher"),
-                PersonEntity(firstName = "Bill", lastName = "Cypher")
+                Person(firstName = "Bill", lastName = "Cypher"),
+                Person(firstName = "Bill", lastName = "Cypher"),
+                Person(firstName = "Bill", lastName = "Cypher"),
+                Person(firstName = "Bill", lastName = "Cypher")
         ))
 
         val result = SUT.getAllPersons()
@@ -60,16 +60,16 @@ class PersonDaoTest {
     fun GET_PERSONS_FOR_INCIDENT_ID_QUERY_somePersonsLinkedWithIncident_linkedPersonsReturned() {
 
         val personsIds = SUT.insert(listOf(
-                PersonEntity(firstName = "Bill", lastName = "Cypher"),
-                PersonEntity(firstName = "Bill", lastName = "Cypher"),
-                PersonEntity(firstName = "Bill", lastName = "Cypher"),
-                PersonEntity(firstName = "Bill", lastName = "Cypher")
+                Person(firstName = "Bill", lastName = "Cypher"),
+                Person(firstName = "Bill", lastName = "Cypher"),
+                Person(firstName = "Bill", lastName = "Cypher"),
+                Person(firstName = "Bill", lastName = "Cypher")
         ))
 
         val incidentsIds = database.incidentDao.insert(listOf(
-                IncidentEntity(name = "Name", points = 10),
-                IncidentEntity(name = "Name", points = 10),
-                IncidentEntity(name = "Name", points = 10)
+                Incident(name = "Name", points = 10),
+                Incident(name = "Name", points = 10),
+                Incident(name = "Name", points = 10)
         ))
 
         database.personIncidentLinkDao.insert(
@@ -85,9 +85,9 @@ class PersonDaoTest {
     @Test
     fun GET_PERSONS_FOR_INCIDENT_ID_QUERY_noPersonsLinkedWithIncident_emptyListReturned() {
         SUT.insert(listOf(
-                PersonEntity(firstName = "Bill", lastName = "Morgan"),
-                PersonEntity(firstName = "Bill", lastName = "Morgan"),
-                PersonEntity(firstName = "Bill", lastName = "Morgan")
+                Person(firstName = "Bill", lastName = "Morgan"),
+                Person(firstName = "Bill", lastName = "Morgan"),
+                Person(firstName = "Bill", lastName = "Morgan")
         ))
         val localIncidentId = 18L
 
@@ -107,12 +107,12 @@ class PersonDaoTest {
 
     @Test
     fun GET_PERSON_TOTAL_POINTS_multiplePersonsAndIncidents_sumOfPersonsIncidentsPointsReturned() {
-        val firstPersonLocalId = SUT.insert(PersonEntity(firstName = "Mike", lastName = "Parallax"))
-        val secondPersonLocalId = SUT.insert(PersonEntity(firstName = "Johny", lastName = "Bravo"))
+        val firstPersonLocalId = SUT.insert(Person(firstName = "Mike", lastName = "Parallax"))
+        val secondPersonLocalId = SUT.insert(Person(firstName = "Johny", lastName = "Bravo"))
 
-        val firstIncidentLocalId = database.incidentDao.insert(IncidentEntity(name = "Test 1", points = 42))
-        val secondIncidentLocalId = database.incidentDao.insert(IncidentEntity(name = "Test 2", points = 231))
-        val thirdIncidentLocalId = database.incidentDao.insert(IncidentEntity(name = "Test 3", points = 119))
+        val firstIncidentLocalId = database.incidentDao.insert(Incident(name = "Test 1", points = 42))
+        val secondIncidentLocalId = database.incidentDao.insert(Incident(name = "Test 2", points = 231))
+        val thirdIncidentLocalId = database.incidentDao.insert(Incident(name = "Test 3", points = 119))
 
         database.personIncidentLinkDao.insert(PersonIncidentLinkEntity(firstPersonLocalId, firstIncidentLocalId))
         database.personIncidentLinkDao.insert(PersonIncidentLinkEntity(secondPersonLocalId, secondIncidentLocalId))

@@ -2,21 +2,20 @@ package com.mpowloka.data.local.database.entity
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import com.mpowloka.data.local.database.entity.PersonEntity.Companion.TABLE_NAME
+import com.mpowloka.data.local.database.entity.Incident.Companion.TABLE_NAME
+import org.joda.time.DateTime
 
 @Entity(tableName = TABLE_NAME)
-data class PersonEntity(
+data class Incident(
         @PrimaryKey(autoGenerate = true) val localId: Long = 0,
-        val firstName: String,
-        val lastName: String,
+        val name: String,
+        val description: String = "",
+        val points: Int,
         val pictureUrl: String = "",
+        val creationDate: DateTime = DateTime.now(),
         val deleted: Boolean = false
 ) {
-
     companion object {
-
-        const val TABLE_NAME = "Persons"
-
+        const val TABLE_NAME = "Incidents"
     }
-
 }

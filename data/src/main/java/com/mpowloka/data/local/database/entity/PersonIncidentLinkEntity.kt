@@ -17,26 +17,23 @@ import com.mpowloka.data.local.database.entity.PersonIncidentLinkEntity.Companio
         ],
         foreignKeys = [
             ForeignKey(
-                    entity = IncidentEntity::class,
+                    entity = Incident::class,
                     parentColumns = ["localId"],
                     childColumns = ["localIncidentId"]
             ),
             ForeignKey(
-                    entity = PersonEntity::class,
+                    entity = Person::class,
                     parentColumns = ["localId"],
                     childColumns = ["localPersonId"]
             )
         ]
 )
-data class PersonIncidentLinkEntity(
+internal data class PersonIncidentLinkEntity(
         val localPersonId: Long,
         val localIncidentId: Long
 ) {
 
     companion object {
-
         const val TABLE_NAME = "PersonIncidentLinks"
-
     }
-
 }

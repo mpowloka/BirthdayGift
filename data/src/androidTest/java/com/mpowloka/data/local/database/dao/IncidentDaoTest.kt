@@ -3,8 +3,8 @@ package com.mpowloka.data.local.database.dao
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import com.mpowloka.data.local.database.MainDatabase
-import com.mpowloka.data.local.database.entity.IncidentEntity
-import com.mpowloka.data.local.database.entity.PersonEntity
+import com.mpowloka.data.local.database.entity.Incident
+import com.mpowloka.data.local.database.entity.Person
 import com.mpowloka.data.local.database.entity.PersonIncidentLinkEntity
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.After
@@ -40,10 +40,10 @@ class IncidentDaoTest {
     @Test
     fun GET_ALL_INCIDENTS_QUERY_someIncidentsInDatabase_allIncidentsReturned() {
         SUT.insert(listOf(
-                IncidentEntity(name = "Incident", points = 40),
-                IncidentEntity(name = "Incident", points = 40),
-                IncidentEntity(name = "Incident", points = 40),
-                IncidentEntity(name = "Incident", points = 40)
+                Incident(name = "Incident", points = 40),
+                Incident(name = "Incident", points = 40),
+                Incident(name = "Incident", points = 40),
+                Incident(name = "Incident", points = 40)
         ))
 
         val result = SUT.getAllIncidents()
@@ -60,16 +60,16 @@ class IncidentDaoTest {
     @Test
     fun GET_INCIDENTS_FOR_PERSON_ID_QUERY_someIncidentsLinkedWithSomePersons_linkedIncidentsReturned() {
         val incidentsIds = SUT.insert(listOf(
-                IncidentEntity(name = "Incident", points = 40),
-                IncidentEntity(name = "Incident", points = 40),
-                IncidentEntity(name = "Incident", points = 40),
-                IncidentEntity(name = "Incident", points = 40)
+                Incident(name = "Incident", points = 40),
+                Incident(name = "Incident", points = 40),
+                Incident(name = "Incident", points = 40),
+                Incident(name = "Incident", points = 40)
         ))
 
-        val personsIds = database.personDao.insert(listOf(
-                PersonEntity(firstName = "John", lastName = "Lemon"),
-                PersonEntity(firstName = "John", lastName = "Lemon"),
-                PersonEntity(firstName = "John", lastName = "Lemon")
+        val personsIds = database.personsDao.insert(listOf(
+                Person(firstName = "John", lastName = "Lemon"),
+                Person(firstName = "John", lastName = "Lemon"),
+                Person(firstName = "John", lastName = "Lemon")
         ))
 
         database.personIncidentLinkDao.insert(listOf(
@@ -85,10 +85,10 @@ class IncidentDaoTest {
     @Test
     fun GET_INCIDENTS_FOR_PERSON_ID_QUERY_noIncidentsLinkedWithPerson_emptyListReturned() {
         SUT.insert(listOf(
-                IncidentEntity(name = "Incident", points = 40),
-                IncidentEntity(name = "Incident", points = 40),
-                IncidentEntity(name = "Incident", points = 40),
-                IncidentEntity(name = "Incident", points = 40)
+                Incident(name = "Incident", points = 40),
+                Incident(name = "Incident", points = 40),
+                Incident(name = "Incident", points = 40),
+                Incident(name = "Incident", points = 40)
         ))
         val localPersonId = 18L
 

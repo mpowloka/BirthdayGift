@@ -4,22 +4,22 @@ import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Query
 import com.mpowloka.architecture.data.BaseDao
-import com.mpowloka.data.local.database.entity.IncidentEntity
+import com.mpowloka.data.local.database.entity.Incident
 
 @Dao
-abstract class IncidentDao : BaseDao<IncidentEntity> {
+abstract class IncidentDao : BaseDao<Incident> {
 
     @Query(GET_ALL_INCIDENTS_QUERY)
-    abstract fun getAllIncidents(): List<IncidentEntity>
+    abstract fun getAllIncidents(): List<Incident>
 
     @Query(GET_ALL_INCIDENTS_QUERY)
-    abstract fun getAllIncidentsLiveData(): LiveData<List<IncidentEntity>>
+    abstract fun getAllIncidentsLiveData(): LiveData<List<Incident>>
 
     @Query(GET_INCIDENTS_FOR_PERSON_ID_QUERY)
-    abstract fun getIncidentsForPersonId(localPersonId: Long): List<IncidentEntity>
+    abstract fun getIncidentsForPersonId(localPersonId: Long): List<Incident>
 
     @Query(GET_INCIDENTS_FOR_PERSON_ID_QUERY)
-    abstract fun getIncidentsForPersonIdLiveData(localPersonId: Long): LiveData<List<IncidentEntity>>
+    abstract fun getIncidentsForPersonIdLiveData(localPersonId: Long): LiveData<List<Incident>>
 
     companion object {
 
