@@ -1,12 +1,13 @@
+@SuppressWarnings("GrMethodMayBeStatic")
 def dependencyGroup(Closure closure) {
     closure.delegate = dependencies
     return closure
 }
 
 ext.room = dependencyGroup {
-    kapt "android.arch.persistence.room:compiler:$room_version"
-    implementation "android.arch.persistence.room:runtime:$room_version"
-    testImplementation "android.arch.persistence.room:testing:$room_version"
+    kapt "androidx.room:room-compiler-ktx:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
 }
 
 ext.dagger = dependencyGroup {
@@ -29,7 +30,7 @@ ext.coreTesting = dependencyGroup {
 }
 
 ext.androidArchitecture = dependencyGroup {
-    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
-    kapt "android.arch.lifecycle:compiler:$lifecycle_version"
-    testImplementation "android.arch.core:core-testing:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler-ktx:$lifecycle_version"
+    testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
 }

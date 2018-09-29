@@ -1,31 +1,38 @@
 package com.mpowloka.data.local.database.dao
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Query
 import com.mpowloka.architecture.data.BaseDao
-import com.mpowloka.data.local.database.entity.Person
+import com.mpowloka.data.local.database.entity.PersonsEntityRow
+import com.mpowloka.data.local.model.PersonWithPoints
 
 @Dao
-abstract class PersonsDao : BaseDao<Person> {
+abstract class PersonsDao : BaseDao<PersonsEntityRow> {
 
     @Query(GET_ALL_PERSONS_QUERY)
-    abstract fun getAllPersons(): List<Person>
+    abstract fun getAllPersons(): List<PersonsEntityRow>
 
     @Query(GET_ALL_PERSONS_QUERY)
-    abstract fun getAllPersonsLiveData(): LiveData<List<Person>>
+    abstract fun getAllPersonsLiveData(): LiveData<List<PersonsEntityRow>>
 
     @Query(GET_PERSONS_FOR_INCIDENT_ID_QUERY)
-    abstract fun getPersonsForIncidentId(localIncidentId: Long): List<Person>
+    abstract fun getPersonsForIncidentId(localIncidentId: Long): List<PersonsEntityRow>
 
     @Query(GET_PERSONS_FOR_INCIDENT_ID_QUERY)
-    abstract fun getPersonsForIncidentIdLiveData(localIncidentId: Long): LiveData<List<Person>>
+    abstract fun getPersonsForIncidentIdLiveData(localIncidentId: Long): LiveData<List<PersonsEntityRow>>
 
     @Query(GET_PERSON_TOTAL_POINTS)
     abstract fun getPersonTotalPoints(localPersonId: Long): Int
 
     @Query(GET_PERSON_TOTAL_POINTS)
     abstract fun getPersonTotalPointsLiveData(localPersonId: Long): LiveData<Int>
+
+    @Query(GET_ALL_PERSONS_WITH_POINTS_QUERY)
+    abstract fun getAllPersonsWithPoints(): List<PersonWithPoints>
+
+    @Query(GET_ALL_PERSONS_WITH_POINTS_QUERY)
+    abstract fun getAllPersonsWithPointsLiveData(): LiveData<List<PersonWithPoints>>
 
     companion object {
 
@@ -39,10 +46,23 @@ abstract class PersonsDao : BaseDao<Person> {
         """
 
         private const val GET_PERSONS_FOR_INCIDENT_ID_QUERY = """
-            SELECT p.localId, p.firstName, p.lastName, p.pictureUrl, p.deleted
+            SELECT p.*
             FROM Persons p INNER JOIN PersonIncidentLinks pil
             ON p.localId = pil.localPersonId
             WHERE pil.localIncidentId = :localIncidentId
+        """
+
+        private const val GET_POINTS_SUMS_SUB_QUERY = """
+            (SELECT pil.localPersonId as localPersonId, SUM(i.points) as points
+            FROM Incidents i INNER JOIN PersonIncidentLinks pil
+            ON i.localId = pil.localIncidentId
+            GROUP BY pil.localPersonId)
+        """
+
+        private const val GET_ALL_PERSONS_WITH_POINTS_QUERY = """
+           SELECT p.*, s.points
+           FROM Persons as p LEFT JOIN $GET_POINTS_SUMS_SUB_QUERY as s
+           ON p.localId = s.localPersonId
         """
 
     }

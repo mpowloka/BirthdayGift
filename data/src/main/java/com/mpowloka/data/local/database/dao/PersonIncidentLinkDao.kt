@@ -1,8 +1,8 @@
 package com.mpowloka.data.local.database.dao
 
-import android.arch.persistence.room.Dao
+import androidx.room.Dao
 import com.mpowloka.architecture.data.BaseDao
-import com.mpowloka.data.local.database.entity.PersonIncidentLinkEntity
+import com.mpowloka.data.local.database.entity.PersonIncidentLinksEntityRow
 
 @Dao
-abstract class PersonIncidentLinkDao : BaseDao<PersonIncidentLinkEntity>
+abstract class PersonIncidentLinkDao : BaseDao<PersonIncidentLinksEntityRow>

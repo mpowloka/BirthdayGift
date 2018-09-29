@@ -1,25 +1,25 @@
 package com.mpowloka.data.local.database.dao
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Query
 import com.mpowloka.architecture.data.BaseDao
-import com.mpowloka.data.local.database.entity.Incident
+import com.mpowloka.data.local.database.entity.IncidentsEntityRow
 
 @Dao
-abstract class IncidentDao : BaseDao<Incident> {
+abstract class IncidentDao : BaseDao<IncidentsEntityRow> {
 
     @Query(GET_ALL_INCIDENTS_QUERY)
-    abstract fun getAllIncidents(): List<Incident>
+    abstract fun getAllIncidents(): List<IncidentsEntityRow>
 
     @Query(GET_ALL_INCIDENTS_QUERY)
-    abstract fun getAllIncidentsLiveData(): LiveData<List<Incident>>
+    abstract fun getAllIncidentsLiveData(): LiveData<List<IncidentsEntityRow>>
 
     @Query(GET_INCIDENTS_FOR_PERSON_ID_QUERY)
-    abstract fun getIncidentsForPersonId(localPersonId: Long): List<Incident>
+    abstract fun getIncidentsForPersonId(localPersonId: Long): List<IncidentsEntityRow>
 
     @Query(GET_INCIDENTS_FOR_PERSON_ID_QUERY)
-    abstract fun getIncidentsForPersonIdLiveData(localPersonId: Long): LiveData<List<Incident>>
+    abstract fun getIncidentsForPersonIdLiveData(localPersonId: Long): LiveData<List<IncidentsEntityRow>>
 
     companion object {
 

@@ -1,9 +1,9 @@
 package com.mpowloka.data.local.database.entity
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.Index
-import com.mpowloka.data.local.database.entity.PersonIncidentLinkEntity.Companion.TABLE_NAME
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import com.mpowloka.data.local.database.entity.PersonIncidentLinksEntityRow.Companion.TABLE_NAME
 
 @Entity(
         tableName = TABLE_NAME,
@@ -17,18 +17,18 @@ import com.mpowloka.data.local.database.entity.PersonIncidentLinkEntity.Companio
         ],
         foreignKeys = [
             ForeignKey(
-                    entity = Incident::class,
+                    entity = IncidentsEntityRow::class,
                     parentColumns = ["localId"],
                     childColumns = ["localIncidentId"]
             ),
             ForeignKey(
-                    entity = Person::class,
+                    entity = PersonsEntityRow::class,
                     parentColumns = ["localId"],
                     childColumns = ["localPersonId"]
             )
         ]
 )
-internal data class PersonIncidentLinkEntity(
+internal data class PersonIncidentLinksEntityRow(
         val localPersonId: Long,
         val localIncidentId: Long
 ) {

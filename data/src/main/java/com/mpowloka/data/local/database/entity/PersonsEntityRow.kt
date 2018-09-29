@@ -1,11 +1,11 @@
 package com.mpowloka.data.local.database.entity
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
-import com.mpowloka.data.local.database.entity.Person.Companion.TABLE_NAME
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.mpowloka.data.local.database.entity.PersonsEntityRow.Companion.TABLE_NAME
 
 @Entity(tableName = TABLE_NAME)
-data class Person(
+data class PersonsEntityRow(
         @PrimaryKey(autoGenerate = true) val localId: Long = 0,
         val firstName: String,
         val lastName: String,

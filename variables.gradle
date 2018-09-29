@@ -1,9 +1,9 @@
 ext {
 
-    kotlin_version = '1.2.61'
+    kotlin_version = '1.2.71'
 
-    room_version = '1.1.1'
+    room_version = '2.0.0-beta01'
     dagger_version = "2.15"
-    lifecycle_version = '1.1.1'
+    lifecycle_version = '2.0.0-beta01'
 
 }
