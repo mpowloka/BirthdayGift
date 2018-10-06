@@ -5,7 +5,7 @@ def dependencyGroup(Closure closure) {
 }
 
 ext.room = dependencyGroup {
-    kapt "androidx.room:room-compiler-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
 }
@@ -31,6 +31,6 @@ ext.coreTesting = dependencyGroup {
 
 ext.androidArchitecture = dependencyGroup {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    kapt "androidx.lifecycle:lifecycle-compiler-ktx:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
 }
