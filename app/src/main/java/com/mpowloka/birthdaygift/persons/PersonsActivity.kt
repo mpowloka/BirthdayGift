@@ -1,16 +1,15 @@
 package com.mpowloka.birthdaygift.persons
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.mpowloka.architecture.base.BaseViewModelActivity
 import com.mpowloka.birthdaygift.R
-import dagger.android.AndroidInjection
 
-class PersonsActivity : AppCompatActivity() {
+class PersonsActivity : BaseViewModelActivity<PersonsViewModel>() {
+
+    override fun getViewModelClass() = PersonsViewModel::class.java
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_persons)
-
     }
 }
