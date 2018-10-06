@@ -1,0 +1,180 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "fe3239d78045809423fbb7f8ea3319ad",
+    "entities": [
+      {
+        "tableName": "Persons",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `pictureUrl` TEXT NOT NULL, `deleted` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "firstName",
+            "columnName": "firstName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastName",
+            "columnName": "lastName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pictureUrl",
+            "columnName": "pictureUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deleted",
+            "columnName": "deleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "localId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Incidents",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `points` INTEGER NOT NULL, `pictureUrl` TEXT NOT NULL, `creationDate` INTEGER NOT NULL, `deleted` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "points",
+            "columnName": "points",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pictureUrl",
+            "columnName": "pictureUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "creationDate",
+            "columnName": "creationDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deleted",
+            "columnName": "deleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "localId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "PersonIncidentLinks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localPersonId` INTEGER NOT NULL, `localIncidentId` INTEGER NOT NULL, PRIMARY KEY(`localPersonId`, `localIncidentId`), FOREIGN KEY(`localIncidentId`) REFERENCES `Incidents`(`localId`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`localPersonId`) REFERENCES `Persons`(`localId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "localPersonId",
+            "columnName": "localPersonId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localIncidentId",
+            "columnName": "localIncidentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "localPersonId",
+            "localIncidentId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_PersonIncidentLinks_localPersonId",
+            "unique": false,
+            "columnNames": [
+              "localPersonId"
+            ],
+            "createSql": "CREATE  INDEX `index_PersonIncidentLinks_localPersonId` ON `${TABLE_NAME}` (`localPersonId`)"
+          },
+          {
+            "name": "index_PersonIncidentLinks_localIncidentId",
+            "unique": false,
+            "columnNames": [
+              "localIncidentId"
+            ],
+            "createSql": "CREATE  INDEX `index_PersonIncidentLinks_localIncidentId` ON `${TABLE_NAME}` (`localIncidentId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Incidents",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "localIncidentId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          },
+          {
+            "table": "Persons",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "localPersonId"
+            ],
+            "referencedColumns": [
+              "localId"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fe3239d78045809423fbb7f8ea3319ad\")"
+    ]
+  }
+}

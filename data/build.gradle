@@ -1,41 +1,50 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
+
     defaultConfig {
-        applicationId "com.mpowloka.birthdaygift"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
 
+    room()
     dagger()
     coreTesting()
     androidArchitecture()
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':architecture')
-    implementation project(':data')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'net.danlew:android.joda:2.9.9.4'
 
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
-
+}
+repositories {
+    mavenCentral()
 }
