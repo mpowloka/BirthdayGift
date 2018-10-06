@@ -3,7 +3,7 @@ ext {
     kotlin_version = '1.2.71'
 
     room_version = '2.0.0-beta01'
-    dagger_version = "2.15"
+    dagger_version = "2.16"
     lifecycle_version = '2.0.0-beta01'
 
 }
