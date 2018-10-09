@@ -3,6 +3,7 @@ package com.mpowloka.data.local.database.di
 import android.app.Application
 import androidx.room.Room
 import com.mpowloka.data.local.database.MainDatabase
+import com.mpowloka.data.local.database.TestDataPreloadCallback
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -17,7 +18,10 @@ class DatabaseModule {
                 application.applicationContext,
                 MainDatabase::class.java,
                 MainDatabase.DATABASE_NAME
-        ).build()
+        )
+                .addCallback(TestDataPreloadCallback()) //TODO remove after development
+                .allowMainThreadQueries()
+                .build()
     }
 
     @Provides
@@ -26,7 +30,7 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideIncidentssDao(mainDatabase: MainDatabase) = mainDatabase.incidentDao
+    fun provideIncidentsDao(mainDatabase: MainDatabase) = mainDatabase.incidentDao
 
     @Provides
     @Singleton
