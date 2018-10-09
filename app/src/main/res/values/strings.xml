@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">BirthdayGift</string>
+    <string name="app_name">Judge</string>
+
+    <string name="person_name_and_surname_placeholder">%s %s</string>
 </resources>

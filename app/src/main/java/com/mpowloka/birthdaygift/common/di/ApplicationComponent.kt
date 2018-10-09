@@ -2,6 +2,7 @@ package com.mpowloka.birthdaygift.common.di
 
 import android.app.Application
 import com.mpowloka.birthdaygift.common.BirthdayApplication
+import com.mpowloka.data.local.database.di.DatabaseModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -13,6 +14,7 @@ import javax.inject.Singleton
     ActivityBindingModule::class,
     AndroidInjectionModule::class,
     ViewModelModule::class,
+    DatabaseModule::class,
     AppModule::class
 ])
 interface ApplicationComponent {

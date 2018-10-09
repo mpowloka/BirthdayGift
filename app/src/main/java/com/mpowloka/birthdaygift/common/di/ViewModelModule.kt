@@ -3,6 +3,7 @@ package com.mpowloka.birthdaygift.common.di
 import androidx.lifecycle.ViewModel
 import com.mpowloka.architecture.viewmodel.ViewModelFactory
 import com.mpowloka.birthdaygift.persons.PersonsViewModel
+import com.mpowloka.domain.persons.GetPersonsWithPointsUseCase
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides
@@ -19,7 +20,7 @@ class ViewModelModule {
     annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
     @Provides
-    internal fun viewModelFactory(
+    fun viewModelFactory(
             providerMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
     ): ViewModelFactory {
         return ViewModelFactory(providerMap)
@@ -28,6 +29,10 @@ class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(PersonsViewModel::class)
-    fun personsViewModel(): ViewModel = PersonsViewModel()
+    fun personsViewModel(
+           getPersonsWithPointsUseCase: GetPersonsWithPointsUseCase
+    ): ViewModel {
+        return PersonsViewModel(getPersonsWithPointsUseCase)
+    }
 
 }
