@@ -1,6 +1,8 @@
 package com.mpowloka.birthdaygift.persons
 
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mpowloka.architecture.base.BaseViewModelActivity
@@ -28,6 +30,22 @@ class PersonsActivity : BaseViewModelActivity<PersonsViewModel>() {
         setupRecycler()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                drawer_layout.openDrawer(GravityCompat.START)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
+    }
+
     private fun setupRecycler() {
         recycler.adapter = personsRecyclerAdapter
         recycler.layoutManager = layoutManager
@@ -35,10 +53,6 @@ class PersonsActivity : BaseViewModelActivity<PersonsViewModel>() {
         viewModel.personsWithPoints.observe(this, Observer { personsWithPoints ->
             personsRecyclerAdapter.setDataSource(personsWithPoints)
         })
-    }
-
-    private fun setupToolbar() {
-        setSupportActionBar(toolbar)
     }
 
 }

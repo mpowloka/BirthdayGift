@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Judge</string>
 
+    <string name="settings">Settings</string>
+    <string name="statistics">Statistics</string>
+
     <string name="person_name_and_surname_placeholder">%s %s</string>
+    <string name="persons_navigation_drawer_message">Happy birthday!</string>
 </resources>
