@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mpowloka.architecture.base.BaseViewModelActivity
 import com.mpowloka.birthdaygift.R
+import com.mpowloka.birthdaygift.persons.recycler.HideFabOnScrollListener
 import com.mpowloka.birthdaygift.persons.recycler.PersonsRecyclerAdapter
 import kotlinx.android.synthetic.main.activity_persons.*
 import javax.inject.Inject
@@ -49,6 +50,7 @@ class PersonsActivity : BaseViewModelActivity<PersonsViewModel>() {
     private fun setupRecycler() {
         recycler.adapter = personsRecyclerAdapter
         recycler.layoutManager = layoutManager
+        recycler.addOnScrollListener(HideFabOnScrollListener(fab))
 
         viewModel.personsWithPoints.observe(this, Observer { personsWithPoints ->
             personsRecyclerAdapter.setDataSource(personsWithPoints)
