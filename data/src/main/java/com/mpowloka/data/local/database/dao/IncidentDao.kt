@@ -5,21 +5,22 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.mpowloka.architecture.data.BaseDao
 import com.mpowloka.data.local.database.entity.IncidentsEntityRow
+import com.mpowloka.data.local.model.Incident
 
 @Dao
 abstract class IncidentDao : BaseDao<IncidentsEntityRow> {
 
     @Query(GET_ALL_INCIDENTS_QUERY)
-    abstract fun getAllIncidents(): List<IncidentsEntityRow>
+    abstract fun getAllIncidents(): List<Incident>
 
     @Query(GET_ALL_INCIDENTS_QUERY)
-    abstract fun getAllIncidentsLiveData(): LiveData<List<IncidentsEntityRow>>
+    abstract fun getAllIncidentsLiveData(): LiveData<List<Incident>>
 
     @Query(GET_INCIDENTS_FOR_PERSON_ID_QUERY)
-    abstract fun getIncidentsForPersonId(localPersonId: Long): List<IncidentsEntityRow>
+    abstract fun getIncidentsForPersonId(localPersonId: Long): List<Incident>
 
     @Query(GET_INCIDENTS_FOR_PERSON_ID_QUERY)
-    abstract fun getIncidentsForPersonIdLiveData(localPersonId: Long): LiveData<List<IncidentsEntityRow>>
+    abstract fun getIncidentsForPersonIdLiveData(localPersonId: Long): LiveData<List<Incident>>
 
     companion object {
 

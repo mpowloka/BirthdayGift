@@ -1,4 +1,4 @@
-package com.mpowloka.birthdaygift.persons.recycler
+package com.mpowloka.birthdaygift.common.recycler
 
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -2,8 +2,11 @@ package com.mpowloka.birthdaygift.common.di
 
 import androidx.lifecycle.ViewModel
 import com.mpowloka.architecture.viewmodel.ViewModelFactory
+import com.mpowloka.birthdaygift.persondetails.PersonDetailsViewModel
 import com.mpowloka.birthdaygift.persons.PersonsViewModel
-import com.mpowloka.domain.persons.GetPersonsWithPointsUseCase
+import com.mpowloka.domain.persons.GetIncidentsForLocalPersonIdUseCase
+import com.mpowloka.domain.persons.GetPersonWithPointsAndRankForLocalIdUseCase
+import com.mpowloka.domain.persons.GetPersonsWithPointsAndRankUseCase
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides
@@ -30,9 +33,22 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(PersonsViewModel::class)
     fun personsViewModel(
-           getPersonsWithPointsUseCase: GetPersonsWithPointsUseCase
+            getPersonsWithPointsAndRankUseCase: GetPersonsWithPointsAndRankUseCase
     ): ViewModel {
-        return PersonsViewModel(getPersonsWithPointsUseCase)
+        return PersonsViewModel(getPersonsWithPointsAndRankUseCase)
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(PersonDetailsViewModel::class)
+    fun personDetailsViewModel(
+            getPersonWithPointsAndRankForLocalIdUseCase: GetPersonWithPointsAndRankForLocalIdUseCase,
+            getIncidentsForLocalPersonIdUseCase: GetIncidentsForLocalPersonIdUseCase
+    ): ViewModel {
+        return PersonDetailsViewModel(
+                getPersonWithPointsAndRankForLocalIdUseCase,
+                getIncidentsForLocalPersonIdUseCase
+        )
     }
 
 }

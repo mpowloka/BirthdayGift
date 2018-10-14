@@ -6,4 +6,8 @@
 
     <string name="person_name_and_surname_placeholder">%s %s</string>
     <string name="persons_navigation_drawer_message">Happy birthday!</string>
+
+
+    <string name="points_label">Points:</string>
+    <string name="rank_label">Rank:</string>
 </resources>

@@ -12,7 +12,7 @@ class PersonsModule {
     fun providePersonsRecyclerAdapter(
             personsActivity: PersonsActivity
     ): PersonsRecyclerAdapter {
-        return PersonsRecyclerAdapter(personsActivity)
+        return PersonsRecyclerAdapter(personsActivity, personsActivity.viewModel)
     }
 
     @Provides

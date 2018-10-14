@@ -34,6 +34,12 @@ abstract class PersonsDao : BaseDao<PersonsEntityRow> {
     @Query(GET_ALL_PERSONS_WITH_POINTS_QUERY)
     abstract fun getAllPersonsWithPointsLiveData(): LiveData<List<PersonWithPoints>>
 
+    @Query(GET_PERSON_ITH_POINTS_FOR_LOCAL_ID_QUERY)
+    abstract fun getPersonWithPointsForLocalId(localPersonId: Long): PersonWithPoints?
+
+    @Query(GET_PERSON_ITH_POINTS_FOR_LOCAL_ID_QUERY)
+    abstract fun getPersonWithPointsForLocalIdLiveData(localPersonId: Long): List<PersonWithPoints>
+
     companion object {
 
         private const val GET_ALL_PERSONS_QUERY = "SELECT * FROM Persons"
@@ -63,6 +69,13 @@ abstract class PersonsDao : BaseDao<PersonsEntityRow> {
            SELECT p.*, s.points
            FROM Persons as p LEFT JOIN $GET_POINTS_SUMS_SUB_QUERY as s
            ON p.localId = s.localPersonId
+        """
+
+        private const val GET_PERSON_ITH_POINTS_FOR_LOCAL_ID_QUERY = """
+           SELECT p.*, s.points
+           FROM Persons as p LEFT JOIN $GET_POINTS_SUMS_SUB_QUERY as s
+           ON p.localId = s.localPersonId
+           WHERE p.localId = :localPersonId
         """
 
     }

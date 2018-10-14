@@ -5,25 +5,27 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mpowloka.birthdaygift.R
-import com.mpowloka.data.local.model.PersonWithPoints
+import com.mpowloka.birthdaygift.persons.PersonsViewModel
+import com.mpowloka.data.local.model.PersonWithPointsAndRank
 
 class PersonsRecyclerAdapter(
-        private val activity: AppCompatActivity
-) : RecyclerView.Adapter<PersonsViewHolder>() {
+        private val activity: AppCompatActivity,
+        private val viewModel: PersonsViewModel
+) : RecyclerView.Adapter<PersonViewHolder>() {
 
-    private var dataSource = emptyList<PersonWithPoints>()
+    private var dataSource = emptyList<PersonWithPointsAndRank>()
 
-    fun setDataSource(dataSource: List<PersonWithPoints>?) {
-        this.dataSource = dataSource?.sortedBy { -it.points } ?: emptyList()
+    fun setDataSource(dataSource: List<PersonWithPointsAndRank>?) {
+        this.dataSource = dataSource?.sortedBy { it.rank } ?: emptyList()
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_person, parent, false)
-        return PersonsViewHolder(activity, view)
+        return PersonViewHolder(activity, viewModel, view)
     }
 
-    override fun onBindViewHolder(holder: PersonsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         holder.bind(dataSource[position])
     }
 

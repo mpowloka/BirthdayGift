@@ -8,6 +8,7 @@ import com.mpowloka.data.local.database.entity.PersonIncidentLinksEntityRow
 import com.mpowloka.data.local.database.entity.PersonsEntityRow
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.After
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -190,6 +191,42 @@ class PersonsDaoTest {
 
         val result = SUT.getAllPersonsWithPoints()
         assertThat(result[0].points, `is`(localIncidentIds.size * points))
+    }
+
+    @Test
+    fun GET_PERSON_ITH_POINTS_FOR_LOCAL_ID_QUERY_multiplePersonsInDatabase_personWithGivenIdReturned() {
+
+        val localPersonIds = SUT.insert(listOf(
+                PersonsEntityRow(firstName = "Bill", lastName = "Cypher"),
+                PersonsEntityRow(firstName = "Ronald", lastName = "Goldman"),
+                PersonsEntityRow(firstName = "Jeff", lastName = "Morgan")
+        ))
+
+        val result = SUT.getPersonWithPointsForLocalId(localPersonIds[1])
+
+        assertThat(result?.lastName, `is`("Goldman"))
+    }
+
+    @Test
+    fun GET_PERSON_ITH_POINTS_FOR_LOCAL_ID_QUERY_noPersonWithThatIdInDatabase_nullReturned() {
+
+        SUT.insert(listOf(
+                PersonsEntityRow(localId = 0L, firstName = "Bill", lastName = "Cypher"),
+                PersonsEntityRow(localId = 1L, firstName = "Ronald", lastName = "Goldman"),
+                PersonsEntityRow(localId = 2L, firstName = "Jeff", lastName = "Morgan")
+        ))
+
+        val result = SUT.getPersonWithPointsForLocalId(3)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun GET_PERSON_ITH_POINTS_FOR_LOCAL_ID_QUERY_noPersonsInDatabase_nullReturned() {
+
+        val result = SUT.getPersonWithPointsForLocalId(3)
+
+        assertNull(result)
     }
 
 }
