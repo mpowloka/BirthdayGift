@@ -8,6 +8,6 @@
     <string name="persons_navigation_drawer_message">Happy birthday!</string>
 
 
-    <string name="points_label">Points:</string>
-    <string name="rank_label">Rank:</string>
+    <string name="points_label">Points: </string>
+    <string name="rank_label">Rank: </string>
 </resources>

@@ -9,12 +9,12 @@
         android:id="@+id/details_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -37,34 +37,6 @@
                 tools:srcCompat="@mipmap/ic_launcher" />
 
             <TextView
-                android:id="@+id/first_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_marginStart="12dp"
-
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@+id/person_picture_iv"
-                app:layout_constraintTop_toTopOf="@+id/person_picture_iv"
-                tools:text="Tomasz" />
-
-            <TextView
-                android:id="@+id/last_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_margin="12dp"
-
-
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@+id/person_picture_iv"
-                app:layout_constraintTop_toBottomOf="@+id/first_name_tv"
-
-                tools:text="Michlewski" />
-
-            <TextView
                 android:id="@+id/points_label_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,9 +44,9 @@
                 android:layout_margin="12dp"
 
                 android:text="@string/points_label"
-                app:layout_constraintStart_toEndOf="@+id/person_picture_iv"
 
-                app:layout_constraintTop_toBottomOf="@+id/last_name_tv" />
+                app:layout_constraintStart_toEndOf="@+id/person_picture_iv"
+                app:layout_constraintTop_toTopOf="@+id/person_picture_iv" />
 
             <TextView
                 android:id="@+id/points_tv"
@@ -128,5 +100,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/details_card" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ToolbarTheme"
+
+        app:titleTextColor="#ffffff" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

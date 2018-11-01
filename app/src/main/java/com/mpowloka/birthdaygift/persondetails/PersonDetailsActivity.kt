@@ -3,6 +3,7 @@ package com.mpowloka.birthdaygift.persondetails
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mpowloka.architecture.base.BaseViewModelActivity
@@ -20,7 +21,7 @@ class PersonDetailsActivity : BaseViewModelActivity<PersonDetailsViewModel>() {
     @Inject
     lateinit var personIncidentsRecyclerAdapter: PersonIncidentsRecyclerAdapter
 
-    var displayedPersonLocalId = -1L
+    private var displayedPersonLocalId = -1L
 
     override fun getViewModelClass() = PersonDetailsViewModel::class.java
 
@@ -30,9 +31,21 @@ class PersonDetailsActivity : BaseViewModelActivity<PersonDetailsViewModel>() {
 
         readDataOrFinish()
 
-        bindData()
+        setupToolbar()
 
         setupRecycler()
+
+        bindData()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun bindData() {
@@ -42,8 +55,11 @@ class PersonDetailsActivity : BaseViewModelActivity<PersonDetailsViewModel>() {
                     if (personWithPointsAndRank == null) {
                         finish()
                     } else {
-                        first_name_tv.text = personWithPointsAndRank.personWithPoints.firstName
-                        last_name_tv.text = personWithPointsAndRank.personWithPoints.lastName
+                        supportActionBar?.title = getString(
+                                R.string.person_name_and_surname_placeholder,
+                                personWithPointsAndRank.personWithPoints.firstName,
+                                personWithPointsAndRank.personWithPoints.lastName
+                        )
                         points_tv.text = personWithPointsAndRank.personWithPoints.points.toString()
                         ranking_tv.text = personWithPointsAndRank.rank.toString()
 
@@ -69,6 +85,11 @@ class PersonDetailsActivity : BaseViewModelActivity<PersonDetailsViewModel>() {
         viewModel.getPersonIncidents(displayedPersonLocalId).observe(this, Observer { incidents ->
             personIncidentsRecyclerAdapter.setDataSource(incidents)
         })
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     companion object {
