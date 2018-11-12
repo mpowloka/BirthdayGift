@@ -1,33 +1,19 @@
 package com.mpowloka.data.local.repository
 
 import androidx.lifecycle.LiveData
-import com.mpowloka.data.local.database.dao.IncidentDao
 import com.mpowloka.data.local.database.entity.IncidentsEntityRow
 import com.mpowloka.data.local.model.Incident
-import javax.inject.Inject
 
-class IncidentsRepository @Inject constructor(
-        private val incidentDao: IncidentDao
-) {
+interface IncidentsRepository {
 
-    fun getIncidentsForLocalPersonId(localPersonId: Long): List<Incident> {
-        return incidentDao.getIncidentsForPersonId(localPersonId)
-    }
+    fun getIncidentsForLocalPersonId(localPersonId: Long): List<Incident>
 
-    fun getAllIncidentsForLocalPersonIdLiveData(localPersonId: Long): LiveData<List<Incident>> {
-        return incidentDao.getIncidentsForPersonIdLiveData(localPersonId)
-    }
+    fun getAllIncidentsForLocalPersonIdLiveData(localPersonId: Long): LiveData<List<Incident>>
 
-    fun insertIncident(incident: IncidentsEntityRow): Long {
-        return incidentDao.insert(incident)
-    }
+    fun insertIncident(incident: IncidentsEntityRow): Long
 
-    fun insertIncidents(incidents: List<IncidentsEntityRow>): List<Long> {
-        return incidentDao.insert(incidents)
-    }
+    fun insertIncidents(incidents: List<IncidentsEntityRow>): List<Long>
 
-    fun updateIncident(incident: IncidentsEntityRow) {
-        incidentDao.update(incident)
-    }
+    fun updateIncident(incident: IncidentsEntityRow)
 
 }

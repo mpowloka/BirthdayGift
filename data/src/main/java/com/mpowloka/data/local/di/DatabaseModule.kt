@@ -1,4 +1,4 @@
-package com.mpowloka.data.local.database.di
+package com.mpowloka.data.local.di
 
 import android.app.Application
 import androidx.room.Room
